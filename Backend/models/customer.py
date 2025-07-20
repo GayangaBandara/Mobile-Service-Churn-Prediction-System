@@ -1,12 +1,11 @@
-# models/customer.py
-from sqlalchemy import Column, String, Integer, Float, Boolean
-from database.session import Base
+from sqlalchemy import Column, String, Integer, Boolean, Float, Text, ForeignKey
+from database.base import Base
 
 class Customer(Base):
     __tablename__ = "customers"
 
-    customer_id = Column(String(50), primary_key=True, index=True)
-    gender = Column(String(10))
+    customer_id = Column(String, primary_key=True, index=True)
+    gender = Column(Text)
     married = Column(Boolean)
     dependents = Column(Boolean)
     number_of_dependents = Column(Integer)
@@ -17,8 +16,9 @@ class Customer(Base):
     satisfaction_score = Column(Integer)
     churn_score = Column(Integer)
     cltv = Column(Float)
-    churn_label = Column(String(20))
+    churn_label = Column(Text)
     churn_value = Column(Integer)
-    churn_reason = Column(String(255))
-    churn_category = Column(String(100))
-    customer_status = Column(String(50))
+    churn_reason = Column(Text)
+    churn_category = Column(Text)
+    customer_status = Column(Text)
+    zip_code = Column(String, ForeignKey("locations.zip_code"))

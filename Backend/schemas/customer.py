@@ -4,7 +4,7 @@ from typing import Optional
 class CustomerBase(BaseModel):
     gender: Optional[str] = None
     married: Optional[bool] = None
-    dependents: Optional[bool] = None
+    dependents: Optional[bool]  = None
     number_of_dependents: Optional[int] = None
     partner: Optional[bool] = None
     senior_citizen: Optional[bool] = None
@@ -18,7 +18,7 @@ class CustomerBase(BaseModel):
     churn_reason: Optional[str] = None
     churn_category: Optional[str] = None
     customer_status: Optional[str] = None
-    # zip_code: Optional[str]
+    zip_code: Optional[str] = None
 
 class CustomerCreate(CustomerBase):
     customer_id: str
