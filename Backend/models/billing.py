@@ -1,5 +1,6 @@
 # models/billing.py
 from sqlalchemy import Column, String, Float, Boolean, Text, ForeignKey
+from sqlalchemy.orm import relationship
 from database.base import Base
 
 class Billing(Base):
@@ -18,3 +19,5 @@ class Billing(Base):
     total_long_distance_charges = Column(Float)
     avg_monthly_long_distance_charges = Column(Float)
     avg_monthly_gb_download = Column(Float)
+
+    customer = relationship("Customer", back_populates="billing")

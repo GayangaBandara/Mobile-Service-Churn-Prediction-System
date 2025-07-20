@@ -1,5 +1,6 @@
 from sqlalchemy import Column, String, Integer, Boolean, Float, Text, ForeignKey
 from database.base import Base
+from sqlalchemy.orm import relationship
 
 class Customer(Base):
     __tablename__ = "customers"
@@ -22,3 +23,8 @@ class Customer(Base):
     churn_category = Column(Text)
     customer_status = Column(Text)
     zip_code = Column(String, ForeignKey("locations.zip_code"))
+
+    # Relationships
+    location = relationship("Location", back_populates="customers")
+    services = relationship("Services", uselist=False, back_populates="customer")
+    billing = relationship("Billing", uselist=False, back_populates="customer")

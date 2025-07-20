@@ -1,4 +1,5 @@
 from sqlalchemy import Column, String, Boolean, Text, ForeignKey
+from sqlalchemy.orm import relationship
 from database.base import Base
 
 class Services(Base):
@@ -17,3 +18,5 @@ class Services(Base):
     device_protection_plan = Column(Boolean)
     premium_tech_support = Column(Boolean)
     unlimited_data = Column(Boolean)
+
+    customer = relationship("Customer", back_populates="services")
