@@ -7,6 +7,7 @@ import ProfileDetails from "./Details/ProfileDetails";
 import LocationDetails from "./Details/LocationDetails";
 import ServicesDetails from "./Details/ServicesDetails";
 import BillingDetails from "./Details/BillingDetails";
+import InsightsPanel from "./CustomerInsights";
 
 export default function CustomerDetailPage() {
   const params = useParams();
@@ -15,6 +16,7 @@ export default function CustomerDetailPage() {
   const router = useRouter();
 
   const [customer, setCustomer] = useState<any>(null);
+  const [insights, setInsights] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
 
   useEffect(() => {
@@ -24,6 +26,7 @@ export default function CustomerDetailPage() {
           `http://localhost:8000/customers/${customer_id}`
         );
         setCustomer(res.data);
+        console.log(res.data);
       } catch (err) {
         console.error("Error loading customer", err);
       }
@@ -53,6 +56,27 @@ export default function CustomerDetailPage() {
     }
   }, [customer]);
 
+  const handlePredict = async () => {
+    try {
+      const res = await axios.post(`http://localhost:8000/predict-churn`, {
+        customer_id,
+      });
+
+      const prediction = res.data;
+
+      setInsights({
+        churn_category: prediction.churn_category,
+        churn_label: prediction.churn_label,
+        churn_reason: prediction.churn_reason,
+        churn_score: prediction.churn_score,
+        churn_value: prediction.churn_value,
+      });
+    } catch (err) {
+      console.error("Error predicting churn", err);
+      alert("Failed to predict churn insights.");
+    }
+  };
+
   if (!customer) return <div className="text-center mt-10">Loading...</div>;
 
   return (
@@ -60,6 +84,20 @@ export default function CustomerDetailPage() {
       <h1 className="text-2xl font-bold mb-4">
         Customer Details: {customer.customer_id}
       </h1>
+
+      {!insights  && (
+        <div className="bg-white shadow-lg flex items-center justify-center rounded-lg p-6 mt-10 w-full max-w-3xl mx-auto">
+          <button
+            onClick={handlePredict}
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            Predict Insights
+          </button>
+        </div>
+      )}
+
+      {insights && <InsightsPanel insights={insights} />}
+
       <div className="flex items-center justify-center">
         {/* Profile Section */}
         {profile && <ProfileDetails {...profile} />}
