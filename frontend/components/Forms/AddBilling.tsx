@@ -2,14 +2,13 @@
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const AddBillingForm: React.FC = () => {
   const searchParams = useSearchParams();
   const customerIdFromUrl = searchParams.get("customer_id") || "";
   const isEditMode = searchParams.get("edit") === "true";
 
-  // types
   type BillingForm = {
     customer_id: string;
     contract: string;
@@ -26,7 +25,6 @@ const AddBillingForm: React.FC = () => {
     avg_monthly_gb_download: string;
   };
 
-  // forms
   const [form, setForm] = useState<BillingForm>({
     customer_id: customerIdFromUrl,
     contract: "",
@@ -42,6 +40,8 @@ const AddBillingForm: React.FC = () => {
     avg_monthly_long_distance_charges: "",
     avg_monthly_gb_download: "",
   });
+
+  const router = useRouter();
 
   useEffect(() => {
     setForm((prev) => ({
@@ -94,11 +94,20 @@ const AddBillingForm: React.FC = () => {
         payload[field] = parseFloat(form[field as keyof BillingForm] as string);
       });
 
-      await axios.post("http://localhost:8000/billing", payload);
-      alert("Billing record added successfully!");
+      if (isEditMode) {
+        await axios.put(
+          `http://localhost:8000/billing/${customerIdFromUrl}`,
+          payload
+        );
+        alert("Billing record updated successfully!");
+        router.push(`/customers/${customerIdFromUrl}`);
+      } else {
+        await axios.post("http://localhost:8000/billing", payload);
+        alert("Billing record added successfully!");
+      }
     } catch (err) {
-      console.error("Error adding billing", err);
-      alert("Failed to add billing.");
+      console.error("Error submitting billing", err);
+      alert("Failed to submit billing record.");
     }
   };
 
@@ -216,7 +225,7 @@ const AddBillingForm: React.FC = () => {
             type="submit"
             className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
           >
-            Add Billing
+            {isEditMode ? "Update Billing" : "Add Billing"}
           </button>
         </div>
       </form>

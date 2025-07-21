@@ -1,4 +1,5 @@
 // components/ServicesDetails.tsx
+import { useRouter } from "next/navigation";
 import React from "react";
 
 type ServicesDetailsProps = {
@@ -32,6 +33,9 @@ const ServicesDetails: React.FC<ServicesDetailsProps> = ({
   premium_tech_support,
   unlimited_data,
 }) => {
+  
+  const router = useRouter();
+
   return (
     <div className=" bg-white shadow-lg rounded-lg m-8 p-6 w-[520px] h-[400px]">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">
@@ -76,6 +80,17 @@ const ServicesDetails: React.FC<ServicesDetailsProps> = ({
         <div>
           <strong>Unlimited Data:</strong> {unlimited_data ? "Yes" : "No"}
         </div>
+      </div>
+
+      <div className="flex w-full justify-center mt-10">
+        <button
+          className="bg-blue-500 text-white px-6 py-2 rounded"
+          onClick={() =>
+            router.push(`/add-services?customer_id=${customer_id}&edit=true`)
+          }
+        >
+          Edit Services
+        </button>
       </div>
     </div>
   );

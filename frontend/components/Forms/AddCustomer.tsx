@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface CustomerFormData {
   customer_id: string;
@@ -21,8 +21,12 @@ interface CustomerFormData {
 }
 
 export default function AddCustomer() {
+  const searchParams = useSearchParams();
+  const customerIdFromUrl = searchParams.get("customer_id") || "";
+  const isEditMode = searchParams.get("edit") === "true";
+
   const [form, setForm] = useState<CustomerFormData>({
-    customer_id: "",
+    customer_id: customerIdFromUrl,
     gender: "",
     married: false,
     dependents: false,
@@ -39,6 +43,18 @@ export default function AddCustomer() {
 
   const router = useRouter();
 
+  useEffect(() => {
+    if (isEditMode && customerIdFromUrl) {
+      axios
+        .get(`http://localhost:8000/customers/${customerIdFromUrl}`)
+        .then((res) => setForm(res.data))
+        .catch((err) => {
+          console.error("Failed to fetch customer data", err);
+          alert("Unable to fetch customer data for edit.");
+        });
+    }
+  }, [isEditMode, customerIdFromUrl]);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -46,54 +62,64 @@ export default function AddCustomer() {
     const { name, value, type, checked } = target;
     setForm((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]:
+        type === "checkbox"
+          ? checked
+          : type === "number"
+          ? Number(value)
+          : value,
     }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:8000/customers",
-        form
-      );
-      console.log("Success:", response.data);
-      alert("Customer added successfully!");
-      router.push("/"); 
+      if (isEditMode) {
+        await axios.put(
+          `http://localhost:8000/customers/${form.customer_id}`,
+          form
+        );
+        alert("Customer updated successfully!");
+      } else {
+        await axios.post("http://localhost:8000/customers", form);
+        alert("Customer added successfully!");
+      }
+      router.push(`/customers/${customerIdFromUrl}`);
     } catch (error) {
-      console.error("Error adding customer:", error);
-      alert("Failed to add customer.");
+      console.error("Error submitting customer:", error);
+      alert("Failed to submit customer.");
     }
   };
 
   return (
     <div className="max-w-xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">Add Customer</h1>
+      <h1 className="text-2xl font-bold mb-4">
+        {isEditMode ? "Edit Customer" : "Add Customer"}
+      </h1>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="flex flex-col ">
-          <label htmlFor="">Customer ID</label>
+        <div className="flex flex-col">
+          <label>Customer ID</label>
           <input
             name="customer_id"
-            placeholder="Customer ID"
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded bg-gray-100"
             value={form.customer_id}
-            onChange={handleChange}
-            required
+            readOnly
           />
         </div>
-        <div className="flex flex-col ">
-          <label htmlFor="">Gender</label>
+
+        <div className="flex flex-col">
+          <label>Gender</label>
           <input
             name="gender"
-            placeholder="Gender"
-            className="w-full p-2 border rounded"
             value={form.gender}
             onChange={handleChange}
+            className="w-full p-2 border rounded"
           />
         </div>
+
         <div className="flex gap-10">
-          <label className="block">
-            Married{" "}
+          <label>
+            Married
             <input
               type="checkbox"
               name="married"
@@ -101,8 +127,8 @@ export default function AddCustomer() {
               onChange={handleChange}
             />
           </label>
-          <label className="block">
-            Dependents{" "}
+          <label>
+            Dependents
             <input
               type="checkbox"
               name="dependents"
@@ -113,20 +139,19 @@ export default function AddCustomer() {
         </div>
 
         <div className="flex flex-col">
-          <label htmlFor="">Number of dependants</label>
+          <label>Number of Dependents</label>
           <input
             name="number_of_dependents"
             type="number"
-            placeholder="Number of Dependents"
-            className="w-full p-2 border rounded"
             value={form.number_of_dependents}
             onChange={handleChange}
+            className="w-full p-2 border rounded"
           />
         </div>
 
         <div className="flex gap-6 items-center">
-          <label className="block">
-            Partner{" "}
+          <label>
+            Partner
             <input
               type="checkbox"
               name="partner"
@@ -134,8 +159,8 @@ export default function AddCustomer() {
               onChange={handleChange}
             />
           </label>
-          <label className="block">
-            Senior Citizen{" "}
+          <label>
+            Senior Citizen
             <input
               type="checkbox"
               name="senior_citizen"
@@ -143,8 +168,8 @@ export default function AddCustomer() {
               onChange={handleChange}
             />
           </label>
-          <label className="block">
-            Under 30{" "}
+          <label>
+            Under 30
             <input
               type="checkbox"
               name="under_30"
@@ -155,68 +180,63 @@ export default function AddCustomer() {
         </div>
 
         <div className="flex flex-col">
-          <label htmlFor="">Age</label>
+          <label>Age</label>
           <input
             name="age"
             type="number"
-            placeholder="Age"
-            className="w-full p-2 border rounded"
             value={form.age}
             onChange={handleChange}
+            className="w-full p-2 border rounded"
           />
         </div>
 
         <div className="flex flex-col">
-          <label htmlFor="">Satisfaction Score</label>
+          <label>Satisfaction Score</label>
           <input
             name="satisfaction_score"
             type="number"
-            placeholder="Satisfaction Score"
-            className="w-full p-2 border rounded"
             value={form.satisfaction_score}
             onChange={handleChange}
+            className="w-full p-2 border rounded"
           />
         </div>
 
         <div className="flex flex-col">
-          <label htmlFor="">CLTV</label>
+          <label>CLTV</label>
           <input
             name="cltv"
             type="number"
-            placeholder="CLTV"
-            className="w-full p-2 border rounded"
             value={form.cltv}
             onChange={handleChange}
+            className="w-full p-2 border rounded"
           />
         </div>
 
         <div className="flex flex-col">
-          <label htmlFor="">Customer Status</label>
+          <label>Customer Status</label>
           <input
             name="customer_status"
-            placeholder="Customer Status"
-            className="w-full p-2 border rounded"
             value={form.customer_status}
             onChange={handleChange}
+            className="w-full p-2 border rounded"
           />
         </div>
 
         <div className="flex flex-col">
-          <label htmlFor="">Zip Code</label>
+          <label>Zip Code</label>
           <input
-          name="zip_code"
-          placeholder="Zip Code"
-          className="w-full p-2 border rounded"
-          value={form.zip_code}
-          onChange={handleChange}
-        />
+            name="zip_code"
+            value={form.zip_code}
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+          />
         </div>
-        
+
         <button
           type="submit"
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
         >
-          Submit
+          {isEditMode ? "Update Customer" : "Submit"}
         </button>
       </form>
     </div>

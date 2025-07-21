@@ -38,6 +38,7 @@ const AddLocationForm: React.FC = () => {
 
       const res = await axios.post("http://localhost:8000/locations", payload);
       alert("Location added successfully!");
+      
       console.log("Created:", res.data);
       setForm({
         zip_code: "",

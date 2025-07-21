@@ -80,14 +80,16 @@ const BillingDetails: React.FC<BillingDetailsProps> = ({
           {avg_monthly_gb_download.toFixed(2)} GB
         </div>
       </div>
-      <button
-        className="bg-yellow-500 text-white px-4 py-1 rounded"
-        onClick={() =>
-          router.push(`/add-billing?customer_id=${customer_id}&edit=true`)
-        }
-      >
-        Edit Billing
-      </button>
+      <div className="flex w-full justify-center mt-10">
+        <button
+          className="bg-blue-500 text-white px-6 py-2 rounded"
+          onClick={() =>
+            router.push(`/add-billing?customer_id=${customer_id}&edit=true`)
+          }
+        >
+          Edit Billing
+        </button>
+      </div>
     </div>
   );
 };

@@ -2,11 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const AddServicesForm: React.FC = () => {
   const searchParams = useSearchParams();
   const customerIdFromUrl = searchParams.get("customer_id") || "";
+  const isEditMode = searchParams.get("edit") === "true";
 
   const [form, setForm] = useState({
     customer_id: customerIdFromUrl,
@@ -24,13 +25,26 @@ const AddServicesForm: React.FC = () => {
     unlimited_data: false,
   });
 
-  // Ensure customer_id is set from URL on mount
+    const router = useRouter();
+
   useEffect(() => {
     setForm((prev) => ({
       ...prev,
       customer_id: customerIdFromUrl,
     }));
   }, [customerIdFromUrl]);
+
+  useEffect(() => {
+    if (isEditMode && customerIdFromUrl) {
+      axios
+        .get(`http://localhost:8000/services/${customerIdFromUrl}`)
+        .then((res) => setForm(res.data))
+        .catch((err) => {
+          console.error("Failed to fetch service data", err);
+          alert("Unable to fetch services for edit.");
+        });
+    }
+  }, [isEditMode, customerIdFromUrl]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -51,19 +65,26 @@ const AddServicesForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8000/services", form);
-      alert("Services record added successfully!");
+      if (isEditMode) {
+        await axios.put(`http://localhost:8000/services/${form.customer_id}`, form);
+        alert("Services updated successfully!");
+        router.push(`/customers/${customerIdFromUrl}`);
+      } else {
+        await axios.post("http://localhost:8000/services", form);
+        alert("Services added successfully!");
+      }
     } catch (err) {
-      console.error("Error adding services", err);
-      alert("Failed to add services.");
+      console.error("Error submitting services", err);
+      alert("Failed to submit services.");
     }
   };
 
   return (
     <div className="max-w-3xl mx-auto bg-white shadow p-6 mt-10 rounded-md">
-      <h2 className="text-xl font-bold mb-4 text-gray-800">Add Services</h2>
+      <h2 className="text-xl font-bold mb-4 text-gray-800">
+        {isEditMode ? "Edit Services" : "Add Services"}
+      </h2>
       <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
-        {/* No need for user to edit this */}
         <input
           type="text"
           name="customer_id"
@@ -118,7 +139,7 @@ const AddServicesForm: React.FC = () => {
             type="submit"
             className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
           >
-            Add Services
+            {isEditMode ? "Update Services" : "Add Services"}
           </button>
         </div>
       </form>
