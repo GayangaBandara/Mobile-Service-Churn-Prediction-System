@@ -1,5 +1,8 @@
 from pydantic import BaseModel
 from typing import Optional
+from schemas.location import LocationResponse
+from schemas.billing import BillingResponse
+from schemas.service import ServicesResponse
 
 class CustomerBase(BaseModel):
     gender: Optional[str] = None
@@ -27,5 +30,11 @@ class CustomerUpdate(CustomerBase):
     pass
 
 class CustomerResponse(CustomerCreate):
-    class Config:
-        orm_mode = True
+    location: Optional[LocationResponse] = None
+    billing: Optional[BillingResponse] = None
+    services: Optional[ServicesResponse] = None
+
+    model_config = {
+    "from_attributes": True
+}
+

@@ -23,5 +23,7 @@ class BillingUpdate(BillingBase):
     pass
 
 class BillingResponse(BillingCreate):
-    class Config:
-        orm_mode = True
+    model_config = {
+    "from_attributes": True
+}
+

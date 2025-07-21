@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session,joinedload
 from models.customer import Customer
 from schemas.customer import CustomerCreate, CustomerUpdate
 from fastapi import HTTPException
@@ -16,11 +16,34 @@ def get_customers(db: Session, skip: int = 0, limit: int = 100):
     return db.query(Customer).offset(skip).limit(limit).all()
 
 # get a customer
-def get_a_customer(db:Session,customer_id:str):
-    customer = db.query(Customer).filter(Customer.customer_id==customer_id).first()
-    if not customer : 
-        raise HTTPException(status_code=404, detail="customer not found")
+
+def get_a_customer(db: Session, customer_id: str):
+    customer = (
+        db.query(Customer)
+        .options(
+            joinedload(Customer.location),
+            joinedload(Customer.services),
+            joinedload(Customer.billing)
+        )
+        .filter(Customer.customer_id == customer_id)
+        .first()
+    )
+
+    if not customer:
+        return {"error": "Customer not found"}
+
+    if not customer.services:
+        print("Warning: No services record")
+
+    if not customer.billing:
+        print("Warning: No billing record")
+
+    if not customer.location:
+        print("Warning: No location record")
+
     return customer
+
+   
 
 # update 
 def update_a_customer(db:Session,customer_id:str,updated_data:CustomerUpdate):

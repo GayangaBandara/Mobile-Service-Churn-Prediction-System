@@ -25,6 +25,12 @@ class Customer(Base):
     zip_code = Column(String, ForeignKey("locations.zip_code"))
 
     # Relationships
-    location = relationship("Location", back_populates="customers")
-    services = relationship("Services", uselist=False, back_populates="customer")
-    billing = relationship("Billing", uselist=False, back_populates="customer")
+    # One-to-one or many-to-one (Customer → Location)
+    location = relationship("Location", back_populates="customers")  # No delete-orphan
+
+    # One-to-one
+    billing = relationship("Billing", back_populates="customer", cascade="all, delete-orphan", uselist=False)
+
+    # One-to-one
+    services = relationship("Services", back_populates="customer", cascade="all, delete-orphan", uselist=False)
+

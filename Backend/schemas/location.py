@@ -17,5 +17,6 @@ class LocationUpdate(LocationBase):
     pass
 
 class LocationResponse(LocationCreate):
-    class Config:
-        orm_mode = True
+    model_config = {
+    "from_attributes": True
+}

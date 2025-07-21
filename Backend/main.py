@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from api.v1.endpoints import customer as customer_endpoint
 from api.v1.endpoints import location as location_endpoint
 from api.v1.endpoints import service as service_endpoint
@@ -9,6 +10,18 @@ from database.session import engine
 
 print("Creating FastAPI app...")
 app = FastAPI()
+
+origins = [
+    "http://localhost:3000",  # Your frontend
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Must come after model imports
 print("Registered tables:", Base.metadata.tables.keys())
