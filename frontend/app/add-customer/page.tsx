@@ -1,4 +1,4 @@
-import AddCustomer from "@/components/AddCustomer";
+import AddCustomer from "@/components/Forms/AddCustomer";
 
 export default function Home() {
   return (

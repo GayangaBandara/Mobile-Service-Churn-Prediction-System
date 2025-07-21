@@ -62,14 +62,24 @@ export default function CustomerList() {
     <div className="p-6">
       <div className="flex justify-between">
         <h1 className="text-2xl font-bold mb-4">Customers</h1>
-        <button
-          className="bg-green-500 text-white w-[180px] h-[40px] rounded hover:bg-green-600"
-          onClick={() => {
-            router.push("/add-customer");
-          }}
-        >
-          Add Customer
-        </button>
+        <div className="flex gap-10">
+          <button
+            className="bg-green-500 text-white w-[180px] h-[40px] rounded hover:bg-green-600"
+            onClick={() => {
+              router.push("/add-customer");
+            }}
+          >
+            Add Customer
+          </button>
+          <button
+            className="bg-green-500 text-white w-[180px] h-[40px] rounded hover:bg-green-600"
+            onClick={() => {
+              router.push("/add-location");
+            }}
+          >
+            Add Location
+          </button>
+        </div>
       </div>
 
       {loading ? (

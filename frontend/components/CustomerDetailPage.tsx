@@ -1,78 +1,107 @@
 "use client";
+
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
+import ProfileDetails from "./Details/ProfileDetails";
+import LocationDetails from "./Details/LocationDetails";
+import ServicesDetails from "./Details/ServicesDetails";
+import BillingDetails from "./Details/BillingDetails";
 
 export default function CustomerDetailPage() {
-  const { customer_id } = useParams();
+  const params = useParams();
+  const customer_id = params?.customer_id as string;
+
+  const router = useRouter();
+
   const [customer, setCustomer] = useState<any>(null);
+  const [profile, setProfile] = useState<any>(null);
 
   useEffect(() => {
     const fetchCustomer = async () => {
       try {
-        const res = await axios.get(`http://localhost:8000/customers/${customer_id}`);
-        console.log(res.data)
+        const res = await axios.get(
+          `http://localhost:8000/customers/${customer_id}`
+        );
         setCustomer(res.data);
       } catch (err) {
         console.error("Error loading customer", err);
       }
     };
-    fetchCustomer();
+
+    if (customer_id) {
+      fetchCustomer();
+    }
   }, [customer_id]);
 
-  if (!customer) return <div>Loading...</div>;
+  useEffect(() => {
+    if (customer) {
+      setProfile({
+        customer_id: customer.customer_id,
+        gender: customer.gender,
+        married: customer.married,
+        dependents: customer.dependents,
+        number_of_dependents: customer.number_of_dependents,
+        partner: customer.partner,
+        senior_citizen: customer.senior_citizen,
+        under_30: customer.under_30,
+        age: customer.age,
+        satisfaction_score: customer.satisfaction_score,
+        cltv: customer.cltv,
+        customer_status: customer.customer_status,
+      });
+    }
+  }, [customer]);
+
+  if (!customer) return <div className="text-center mt-10">Loading...</div>;
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Customer Detail: {customer.customer_id}</h1>
-      
-      {/* Profile */}
-      <section className="mb-6">
-        <h2 className="font-semibold text-lg">👤 Profile</h2>
-        <p>Status: {customer.customer_status}</p>
-        <p>Gender: {customer.gender}</p>
-        <p>Age: {customer.age}</p>
-        <p>CLTV: {customer.cltv}</p>
-        <p>Churn Score: {customer.churn_score}</p>
-      </section>
+    <div className="pt-10 pl-20 pr-20">
+      <h1 className="text-2xl font-bold mb-4">
+        Customer Details: {customer.customer_id}
+      </h1>
+      <div className="flex items-center justify-center">
+        {/* Profile Section */}
+        {profile && <ProfileDetails {...profile} />}
 
-      {/* Location */}
-      <section className="mb-6">
-        <h2 className="font-semibold text-lg">📍 Location</h2>
-        {customer.location && (
-          <>
-            <p>City: {customer.location.city}</p>
-            <p>State: {customer.location.state}</p>
-            <p>Country: {customer.location.country}</p>
-            <p>Lat/Long: {customer.location.lat_long}</p>
-          </>
+        {/* Location */}
+        {customer.location && <LocationDetails {...customer.location} />}
+      </div>
+      <div className="flex items-center justify-center">
+        {/* Services */}
+        {!customer.services && (
+          <div className="bg-white shadow-2xl rounded-lg m-8 p-6 w-[520px] h-[400px] flex flex-col gap-2 items-center justify-center">
+            <p className="text-[20px] font-semibold">Services</p>
+            <button
+              className="bg-blue-500 text-white w-[180px] h-[40px] rounded hover:bg-blue-600"
+              onClick={() => {
+                router.push(
+                  `/add-services?customer_id=${customer.customer_id}`
+                );
+              }}
+            >
+              Add Services
+            </button>
+          </div>
         )}
-      </section>
-      
-      {/* Services */}
-      <section className="mb-6">
-        <h2 className="font-semibold text-lg">📶 Services</h2>
-        {customer.services && (
-          <ul className="list-disc ml-6">
-            <li>Internet: {customer.services.internet_service} ({customer.services.internet_type})</li>
-            <li>Phone Service: {customer.services.phone_service ? "Yes" : "No"}</li>
-            <li>Streaming TV: {customer.services.streaming_tv ? "Yes" : "No"}</li>
-            {/* Add more services */}
-          </ul>
+        {customer.services && <ServicesDetails {...customer.services} />}
+
+        {/* Billing */}
+        {!customer.billing && (
+          <div className="bg-white shadow-2xl rounded-lg m-8 p-6 w-[520px] h-[400px] flex flex-col gap-2 items-center justify-center">
+            <p className="text-[20px] font-semibold">Billing</p>
+            <button
+              className="bg-blue-500 text-white w-[180px] h-[40px] rounded hover:bg-blue-600"
+              onClick={() => {
+                router.push(`/add-billing?customer_id=${customer.customer_id}`);
+              }}
+            >
+              Add Billing
+            </button>
+          </div>
         )}
-      </section>
-      
-      {/* Billing */}
-      <section>
-        <h2 className="font-semibold text-lg">💳 Billing</h2>
-        {customer.billing && (
-          <>
-            <p>Contract: {customer.billing.contract}</p>
-            <p>Monthly Charge: ${customer.billing.monthly_charge}</p>
-            <p>Total Charges: ${customer.billing.total_charges}</p>
-          </>
-        )}
-      </section>
+        {customer.billing && <BillingDetails {...customer.billing} />}
+      </div>
     </div>
   );
 }
