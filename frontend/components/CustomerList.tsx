@@ -35,6 +35,7 @@ export default function CustomerList() {
       try {
         const response = await axios.get("http://localhost:8000/customers");
         setCustomers(response.data);
+        console.log(response.data)
       } catch (error) {
         console.error("Failed to load customers:", error);
       } finally {

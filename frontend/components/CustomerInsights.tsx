@@ -3,9 +3,7 @@
 import React from "react";
 
 interface Insights {
-  churn_category: string;
-  churn_label: string;
-  churn_reason: string;
+
   churn_score: number;
   churn_value: number;
 }
@@ -23,18 +21,6 @@ const InsightsPanel: React.FC<InsightsPanelProps> = ({ insights}) => {
 
       {insights ? (
         <div className="grid grid-cols-2 gap-4 text-gray-700">
-          <div>
-            <p className="font-semibold">Churn Category:</p>
-            <p>{insights.churn_category}</p>
-          </div>
-          <div>
-            <p className="font-semibold">Churn Label:</p>
-            <p>{insights.churn_label}</p>
-          </div>
-          <div>
-            <p className="font-semibold">Churn Reason:</p>
-            <p>{insights.churn_reason}</p>
-          </div>
           <div>
             <p className="font-semibold">Churn Score:</p>
             <p>{insights.churn_score}</p>

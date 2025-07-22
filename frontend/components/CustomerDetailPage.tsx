@@ -26,7 +26,6 @@ export default function CustomerDetailPage() {
           `http://localhost:8000/customers/${customer_id}`
         );
         setCustomer(res.data);
-        console.log(res.data);
       } catch (err) {
         console.error("Error loading customer", err);
       }
@@ -53,21 +52,24 @@ export default function CustomerDetailPage() {
         cltv: customer.cltv,
         customer_status: customer.customer_status,
       });
+      setInsights({
+        churn_score: customer.churn_score,
+        churn_value: customer.churn_value,
+      });
     }
+
+    console.log(customer);
   }, [customer]);
 
   const handlePredict = async () => {
     try {
-      const res = await axios.post(`http://localhost:8000/predict-churn`, {
-        customer_id,
-      });
+      const res = await axios.post(
+        `http://localhost:8000/predictions/${customer_id}`
+      );
 
       const prediction = res.data;
 
       setInsights({
-        churn_category: prediction.churn_category,
-        churn_label: prediction.churn_label,
-        churn_reason: prediction.churn_reason,
         churn_score: prediction.churn_score,
         churn_value: prediction.churn_value,
       });
@@ -85,18 +87,16 @@ export default function CustomerDetailPage() {
         Customer Details: {customer.customer_id}
       </h1>
 
-      {!insights  && (
-        <div className="bg-white shadow-lg flex items-center justify-center rounded-lg p-6 mt-10 w-full max-w-3xl mx-auto">
-          <button
-            onClick={handlePredict}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-          >
-            Predict Insights
-          </button>
-        </div>
-      )}
-
       {insights && <InsightsPanel insights={insights} />}
+
+      <div className=" flex items-center justify-center rounded-lg p-6 mt-10 w-full max-w-3xl mx-auto">
+        <button
+          onClick={handlePredict}
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          Predict Insights
+        </button>
+      </div>
 
       <div className="flex items-center justify-center">
         {/* Profile Section */}
