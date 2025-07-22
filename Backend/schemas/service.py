@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from typing import Optional
 
 class ServicesBase(BaseModel):
-    internet_service: Optional[str] = None
+    internet_service: Optional[bool] = None
     internet_type: Optional[str] = None
     phone_service: Optional[bool] = None
     multiple_lines: Optional[bool] = None

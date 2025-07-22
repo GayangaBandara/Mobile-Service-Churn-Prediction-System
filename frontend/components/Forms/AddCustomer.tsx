@@ -87,7 +87,7 @@ export default function AddCustomer() {
       if (isEditMode) {
         router.push(`/customers/${customerIdFromUrl}`);
       } else {
-        router.push("/")
+        router.push("/");
       }
     } catch (error) {
       console.error("Error submitting customer:", error);
@@ -123,12 +123,16 @@ export default function AddCustomer() {
 
         <div className="flex flex-col">
           <label>Gender</label>
-          <input
+          <select
             name="gender"
             value={form.gender}
             onChange={handleChange}
             className="w-full p-2 border rounded"
-          />
+          >
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
         </div>
 
         <div className="flex gap-10">
@@ -228,12 +232,16 @@ export default function AddCustomer() {
 
         <div className="flex flex-col">
           <label>Customer Status</label>
-          <input
+          <select
             name="customer_status"
             value={form.customer_status}
             onChange={handleChange}
             className="w-full p-2 border rounded"
-          />
+          >
+            <option value="">Select Status</option>
+            <option value="Stayed">Stayed</option>
+            <option value="Churned">Churned</option>
+          </select>
         </div>
 
         <div className="flex flex-col">

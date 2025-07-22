@@ -6,7 +6,7 @@ class Services(Base):
     __tablename__ = "services"
 
     customer_id = Column(String, ForeignKey("customers.customer_id"), primary_key=True, index=True)
-    internet_service = Column(Text)
+    internet_service = Column(Boolean)
     internet_type = Column(Text)
     phone_service = Column(Boolean)
     multiple_lines = Column(Boolean)

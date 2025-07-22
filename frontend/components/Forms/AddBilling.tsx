@@ -104,6 +104,7 @@ const AddBillingForm: React.FC = () => {
       } else {
         await axios.post("http://localhost:8000/billing", payload);
         alert("Billing record added successfully!");
+        router.push(`/customers/${customerIdFromUrl}`);
       }
     } catch (err) {
       console.error("Error submitting billing", err);
@@ -122,14 +123,18 @@ const AddBillingForm: React.FC = () => {
           readOnly
           className="border p-2 rounded bg-gray-100"
         />
-        <input
-          type="text"
+        <select
           name="contract"
           value={form.contract}
           onChange={handleChange}
-          placeholder="Contract"
           className="border p-2 rounded"
-        />
+        >
+          <option value="">Select Contract</option>
+          <option value="Two year">Two year</option>
+          <option value="One year">One year</option>
+          <option value="Month-to-month">Month-to-month</option>
+        </select>
+
         <input
           type="text"
           name="monthly_charge"
@@ -146,14 +151,17 @@ const AddBillingForm: React.FC = () => {
           placeholder="Total Charges"
           className="border p-2 rounded"
         />
-        <input
-          type="text"
+        <select
           name="payment_method"
           value={form.payment_method}
           onChange={handleChange}
-          placeholder="Payment Method"
           className="border p-2 rounded"
-        />
+        >
+          <option value="">Select Payment Method</option>
+          <option value="Bank Withdrawal">Bank Withdrawal</option>
+          <option value="Credit Card">Credit Card</option>
+        </select>
+
         <div className="flex items-center space-x-2">
           <input
             type="checkbox"
@@ -163,14 +171,21 @@ const AddBillingForm: React.FC = () => {
           />
           <label htmlFor="paperless_billing">Paperless Billing</label>
         </div>
-        <input
-          type="text"
+        <select
           name="offer"
           value={form.offer}
           onChange={handleChange}
-          placeholder="Offer"
           className="border p-2 rounded"
-        />
+        >
+          <option value="">Select Offer</option>
+          <option value="Offer A">Offer A</option>
+          <option value="Offer B">Offer B</option>
+          <option value="Offer C">Offer C</option>
+          <option value="Offer D">Offer D</option>
+          <option value="Offer E">Offer E</option>
+          <option value="None">None</option>
+        </select>
+
         <input
           type="text"
           name="total_revenue"

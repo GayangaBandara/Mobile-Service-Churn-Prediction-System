@@ -11,7 +11,7 @@ const AddServicesForm: React.FC = () => {
 
   const [form, setForm] = useState({
     customer_id: customerIdFromUrl,
-    internet_service: "",
+    internet_service: false,
     internet_type: "",
     phone_service: false,
     multiple_lines: false,
@@ -25,7 +25,7 @@ const AddServicesForm: React.FC = () => {
     unlimited_data: false,
   });
 
-    const router = useRouter();
+  const router = useRouter();
 
   useEffect(() => {
     setForm((prev) => ({
@@ -66,12 +66,16 @@ const AddServicesForm: React.FC = () => {
     e.preventDefault();
     try {
       if (isEditMode) {
-        await axios.put(`http://localhost:8000/services/${form.customer_id}`, form);
+        await axios.put(
+          `http://localhost:8000/services/${form.customer_id}`,
+          form
+        );
         alert("Services updated successfully!");
         router.push(`/customers/${customerIdFromUrl}`);
       } else {
         await axios.post("http://localhost:8000/services", form);
         alert("Services added successfully!");
+        router.push(`/customers/${customerIdFromUrl}`);
       }
     } catch (err) {
       console.error("Error submitting services", err);
@@ -92,24 +96,20 @@ const AddServicesForm: React.FC = () => {
           readOnly
           className="border p-2 rounded bg-gray-100"
         />
-        <input
-          type="text"
-          name="internet_service"
-          value={form.internet_service}
-          onChange={handleChange}
-          placeholder="Internet Service"
-          className="border p-2 rounded"
-        />
-        <input
-          type="text"
+        <select
           name="internet_type"
           value={form.internet_type}
           onChange={handleChange}
-          placeholder="Internet Type"
           className="border p-2 rounded"
-        />
+        >
+          <option value="">Select Internet Type</option>
+          <option value="Fiber Optic">Fiber Optic</option>
+          <option value="DSL">DSL</option>
+          <option value="Cable">Cable</option>
+        </select>
+
         <div></div>
-        {[
+        {["internet_service",
           "phone_service",
           "multiple_lines",
           "online_backup",

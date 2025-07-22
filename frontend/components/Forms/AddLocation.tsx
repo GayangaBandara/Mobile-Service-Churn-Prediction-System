@@ -2,8 +2,12 @@
 
 import React, { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const AddLocationForm: React.FC = () => {
+
+  const router = useRouter()
+
   const [form, setForm] = useState({
     zip_code: "",
     city: "",
@@ -38,6 +42,7 @@ const AddLocationForm: React.FC = () => {
 
       const res = await axios.post("http://localhost:8000/locations", payload);
       alert("Location added successfully!");
+      router.push('/');
       
       console.log("Created:", res.data);
       setForm({

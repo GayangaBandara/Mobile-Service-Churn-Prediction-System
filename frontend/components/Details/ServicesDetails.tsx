@@ -4,7 +4,7 @@ import React from "react";
 
 type ServicesDetailsProps = {
   customer_id: string;
-  internet_service: string;
+  internet_service: boolean;
   internet_type: string;
   phone_service: boolean;
   multiple_lines: boolean;
@@ -43,7 +43,7 @@ const ServicesDetails: React.FC<ServicesDetailsProps> = ({
       </h2>
       <div className="grid grid-cols-2 gap-4 text-sm text-gray-700">
         <div>
-          <strong>Internet Service:</strong> {internet_service}
+          <strong>Internet Service:</strong> {internet_service ? "Yes" : "No"}
         </div>
         <div>
           <strong>Internet Type:</strong> {internet_type}
