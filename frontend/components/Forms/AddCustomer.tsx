@@ -84,7 +84,11 @@ export default function AddCustomer() {
         await axios.post("http://localhost:8000/customers", form);
         alert("Customer added successfully!");
       }
-      router.push(`/customers/${customerIdFromUrl}`);
+      if (isEditMode) {
+        router.push(`/customers/${customerIdFromUrl}`);
+      } else {
+        router.push("/")
+      }
     } catch (error) {
       console.error("Error submitting customer:", error);
       alert("Failed to submit customer.");
@@ -99,12 +103,22 @@ export default function AddCustomer() {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="flex flex-col">
           <label>Customer ID</label>
-          <input
-            name="customer_id"
-            className="w-full p-2 border rounded bg-gray-100"
-            value={form.customer_id}
-            readOnly
-          />
+          {isEditMode && (
+            <input
+              name="customer_id"
+              className="w-full p-2 border rounded bg-gray-100"
+              value={form.customer_id}
+              readOnly
+            />
+          )}
+          {!isEditMode && (
+            <input
+              name="customer_id"
+              className="w-full p-2 border rounded bg-gray-100"
+              value={form.customer_id}
+              onChange={handleChange}
+            />
+          )}
         </div>
 
         <div className="flex flex-col">

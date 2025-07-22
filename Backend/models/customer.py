@@ -17,10 +17,7 @@ class Customer(Base):
     satisfaction_score = Column(Integer)
     churn_score = Column(Integer)
     cltv = Column(Float)
-    churn_label = Column(Text)
     churn_value = Column(Integer)
-    churn_reason = Column(Text)
-    churn_category = Column(Text)
     customer_status = Column(Text)
     zip_code = Column(String, ForeignKey("locations.zip_code"))
 

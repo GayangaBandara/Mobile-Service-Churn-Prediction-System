@@ -16,10 +16,7 @@ class CustomerBase(BaseModel):
     satisfaction_score: Optional[int] = None
     churn_score: Optional[int] = None
     cltv: Optional[float] = None
-    churn_label: Optional[str] = None
     churn_value: Optional[int] = None
-    churn_reason: Optional[str] = None
-    churn_category: Optional[str] = None
     customer_status: Optional[str] = None
     zip_code: Optional[str] = None
 

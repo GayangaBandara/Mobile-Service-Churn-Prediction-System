@@ -4,3 +4,6 @@ sqlalchemy
 python-dotenv
 uvicorn
 psycopg2-binary
+pandas
+xgboost
+scikit-learn
