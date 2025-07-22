@@ -130,9 +130,9 @@ const AddBillingForm: React.FC = () => {
           className="border p-2 rounded"
         >
           <option value="">Select Contract</option>
-          <option value="Two year">Two year</option>
-          <option value="One year">One year</option>
-          <option value="Month-to-month">Month-to-month</option>
+          <option value="Two Year">Two Year</option>
+          <option value="One Year">One Year</option>
+          <option value="Month-to-Month">Month-to-Month</option>
         </select>
 
         <input
