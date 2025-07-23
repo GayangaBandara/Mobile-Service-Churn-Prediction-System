@@ -160,6 +160,7 @@ const AddBillingForm: React.FC = () => {
           <option value="">Select Payment Method</option>
           <option value="Bank Withdrawal">Bank Withdrawal</option>
           <option value="Credit Card">Credit Card</option>
+          <option value="Mailed Check">Mailed Check</option>
         </select>
 
         <div className="flex items-center space-x-2">

@@ -241,6 +241,7 @@ export default function AddCustomer() {
             <option value="">Select Status</option>
             <option value="Stayed">Stayed</option>
             <option value="Churned">Churned</option>
+            <option value="Joined">Joined</option>
           </select>
         </div>
 

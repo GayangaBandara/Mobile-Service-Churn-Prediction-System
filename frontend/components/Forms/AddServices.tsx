@@ -106,10 +106,12 @@ const AddServicesForm: React.FC = () => {
           <option value="Fiber Optic">Fiber Optic</option>
           <option value="DSL">DSL</option>
           <option value="Cable">Cable</option>
+          <option value="None">None</option>
         </select>
 
         <div></div>
-        {["internet_service",
+        {[
+          "internet_service",
           "phone_service",
           "multiple_lines",
           "online_backup",
