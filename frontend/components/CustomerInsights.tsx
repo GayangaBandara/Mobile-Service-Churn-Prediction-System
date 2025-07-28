@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
+import "../styles/components/CustomerInsights.css";
 
 interface Insights {
-
   churn_score: number;
   churn_value: number;
 }
@@ -13,25 +13,34 @@ interface InsightsPanelProps {
 }
 
 const InsightsPanel: React.FC<InsightsPanelProps> = ({ insights}) => {
+  // Determine risk level classes based on churn score
+  const getChurnScoreClass = (score: number) => {
+    if (score < 30) return "low-risk";
+    if (score < 70) return "medium-risk";
+    return "high-risk";
+  };
+
   return (
-    <div className="bg-white shadow-lg rounded-lg p-6 mt-10 w-full max-w-3xl mx-auto">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold text-gray-800">Churn Insights</h2>
+    <div className="insights-panel">
+      <div className="insights-header">
+        <h2 className="insights-title">Churn Insights</h2>
       </div>
 
       {insights ? (
-        <div className="grid grid-cols-2 gap-4 text-gray-700">
-          <div>
-            <p className="font-semibold">Churn Score:</p>
-            <p>{insights.churn_score}</p>
+        <div className="insights-grid">
+          <div className="insight-item">
+            <p className="insight-label">Churn Score:</p>
+            <p className={`insight-value ${getChurnScoreClass(insights.churn_score)}`}>
+              {insights.churn_score}
+            </p>
           </div>
-          <div>
-            <p className="font-semibold">Churn Value:</p>
-            <p>{insights.churn_value}</p>
+          <div className="insight-item">
+            <p className="insight-label">Churn Value:</p>
+            <p className="insight-value">{insights.churn_value}</p>
           </div>
         </div>
       ) : (
-        <p className="text-gray-500">No churn insights available for this customer.</p>
+        <p className="no-insights">No churn insights available for this customer.</p>
       )}
     </div>
   );

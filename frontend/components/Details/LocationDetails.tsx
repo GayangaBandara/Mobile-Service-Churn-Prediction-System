@@ -1,7 +1,10 @@
 // components/LocationDetails.tsx
+import { useRouter } from "next/navigation";
 import React from "react";
+import "../../styles/components/details/LocationDetails.css";
 
 type LocationDetailsProps = {
+  customer_id: string;
   zip_code: string;
   city: string;
   state: string;
@@ -13,6 +16,7 @@ type LocationDetailsProps = {
 };
 
 const LocationDetails: React.FC<LocationDetailsProps> = ({
+  customer_id,
   zip_code,
   city,
   state,
@@ -22,35 +26,42 @@ const LocationDetails: React.FC<LocationDetailsProps> = ({
   lat_long,
   population,
 }) => {
+  const router = useRouter();
   return (
-    <div className=" bg-white shadow-lg rounded-lg m-8 p-6 w-[500px] h-[350px]">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">
-        Location Details
-      </h2>
-      <div className="grid grid-cols-2 gap-4 text-sm text-gray-700">
-        <div>
-          <strong>ZIP Code:</strong> {zip_code}
+    <div className="location-card">
+      <h2 className="location-title">Location Details</h2>
+      <div className="location-grid">
+        <div className="location-item">
+          <span className="location-label">ZIP Code:</span>
+          <span className="location-value">{zip_code}</span>
         </div>
-        <div>
-          <strong>City:</strong> {city}
+        <div className="location-item">
+          <span className="location-label">City:</span>
+          <span className="location-value">{city}</span>
         </div>
-        <div>
-          <strong>State:</strong> {state}
+        <div className="location-item">
+          <span className="location-label">State:</span>
+          <span className="location-value">{state}</span>
         </div>
-        <div>
-          <strong>Country:</strong> {country}
+        <div className="location-item">
+          <span className="location-label">Country:</span>
+          <span className="location-value">{country}</span>
         </div>
-        <div>
-          <strong>Latitude:</strong> {latitude}
+        <div className="location-item">
+          <span className="location-label">Latitude:</span>
+          <span className="location-value">{latitude}</span>
         </div>
-        <div>
-          <strong>Longitude:</strong> {longitude}
+        <div className="location-item">
+          <span className="location-label">Longitude:</span>
+          <span className="location-value">{longitude}</span>
         </div>
-        <div>
-          <strong>Lat/Long:</strong> {lat_long ?? `${latitude}, ${longitude}`}
+        <div className="location-item">
+          <span className="location-label">Lat/Long:</span>
+          <span className="location-value">{lat_long ?? `${latitude}, ${longitude}`}</span>
         </div>
-        <div>
-          <strong>Population:</strong> {population}
+        <div className="location-item">
+          <span className="location-label">Population:</span>
+          <span className="location-value">{population}</span>
         </div>
       </div>
     </div>

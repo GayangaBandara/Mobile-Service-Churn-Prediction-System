@@ -1,9 +1,12 @@
-import CustomerList from "@/components/CustomerList";
+"use client";
 
-export default function Home() {
+import CustomerList from "@/components/CustomerList";
+import "../styles/pages/page.css";
+
+export default function DashboardPage() {
   return (
-    <div >
-      <CustomerList/>
+    <div className="dashboard-container">
+      <CustomerList />
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
+import "../../styles/components/forms/AddServices.css";
 
 const AddServicesForm: React.FC = () => {
   const searchParams = useSearchParams();
@@ -37,7 +38,7 @@ const AddServicesForm: React.FC = () => {
   useEffect(() => {
     if (isEditMode && customerIdFromUrl) {
       axios
-        .get(`http://localhost:8000/services/${customerIdFromUrl}`)
+        .get(`http://127.0.0.1:8000/services/${customerIdFromUrl}`)
         .then((res) => setForm(res.data))
         .catch((err) => {
           console.error("Failed to fetch service data", err);
@@ -67,7 +68,7 @@ const AddServicesForm: React.FC = () => {
     try {
       if (isEditMode) {
         await axios.put(
-          `http://localhost:8000/services/${form.customer_id}`,
+          `http://127.0.0.1:8000/services/${form.customer_id}`,
           form
         );
         alert("Services updated successfully!");
@@ -84,23 +85,23 @@ const AddServicesForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto bg-white shadow p-6 mt-10 rounded-md">
-      <h2 className="text-xl font-bold mb-4 text-gray-800">
+    <div className="services-form-container">
+      <h2 className="services-form-title">
         {isEditMode ? "Edit Services" : "Add Services"}
       </h2>
-      <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
+      <form onSubmit={handleSubmit} className="services-form">
         <input
           type="text"
           name="customer_id"
           value={form.customer_id}
           readOnly
-          className="border p-2 rounded bg-gray-100"
+          className="services-form-input services-form-input-readonly"
         />
         <select
           name="internet_type"
           value={form.internet_type}
           onChange={handleChange}
-          className="border p-2 rounded"
+          className="services-form-select"
         >
           <option value="">Select Internet Type</option>
           <option value="Fiber Optic">Fiber Optic</option>
@@ -110,6 +111,11 @@ const AddServicesForm: React.FC = () => {
         </select>
 
         <div></div>
+        
+        <div className="service-category">
+          <h3 className="service-category-title">Internet & Phone Services</h3>
+        </div>
+        
         {[
           "internet_service",
           "phone_service",
@@ -123,23 +129,24 @@ const AddServicesForm: React.FC = () => {
           "premium_tech_support",
           "unlimited_data",
         ].map((field) => (
-          <div key={field} className="flex items-center space-x-2">
+          <div key={field} className="services-form-checkbox-container">
             <input
               type="checkbox"
               name={field}
               checked={(form as any)[field]}
               onChange={handleChange}
+              className="services-form-checkbox"
             />
-            <label htmlFor={field} className="capitalize">
+            <label htmlFor={field} className="services-form-label">
               {field.replace(/_/g, " ")}
             </label>
           </div>
         ))}
 
-        <div className="col-span-2">
+        <div className="services-form-button-container">
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+            className="services-form-button"
           >
             {isEditMode ? "Update Services" : "Add Services"}
           </button>

@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
+import { UserPlus } from "lucide-react";
+import "../../styles/components/forms/AddCustomer.css";
 
 interface CustomerFormData {
   customer_id: string;
@@ -46,7 +48,7 @@ export default function AddCustomer() {
   useEffect(() => {
     if (isEditMode && customerIdFromUrl) {
       axios
-        .get(`http://localhost:8000/customers/${customerIdFromUrl}`)
+        .get(`http://127.0.0.1:8000/customers/${customerIdFromUrl}`)
         .then((res) => setForm(res.data))
         .catch((err) => {
           console.error("Failed to fetch customer data", err);
@@ -58,13 +60,13 @@ export default function AddCustomer() {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const target = e.target as HTMLInputElement;
-    const { name, value, type, checked } = target;
+    const target = e.target as HTMLInputElement | HTMLSelectElement;
+    const { name, value, type } = target;
     setForm((prev) => ({
       ...prev,
       [name]:
         type === "checkbox"
-          ? checked
+          ? (target as HTMLInputElement).checked
           : type === "number"
           ? Number(value)
           : value,
@@ -76,192 +78,192 @@ export default function AddCustomer() {
     try {
       if (isEditMode) {
         await axios.put(
-          `http://localhost:8000/customers/${form.customer_id}`,
+          `http://127.0.0.1:8000/customers/${form.customer_id}`,
           form
         );
-        alert("Customer updated successfully!");
-      } else {
-        await axios.post("http://localhost:8000/customers", form);
-        alert("Customer added successfully!");
-      }
-      if (isEditMode) {
+        alert("✅ Customer updated successfully!");
         router.push(`/customers/${customerIdFromUrl}`);
       } else {
+        await axios.post("http://127.0.0.1:8000/customers", form);
+        alert("✅ Customer added successfully!");
         router.push("/");
       }
     } catch (error) {
       console.error("Error submitting customer:", error);
-      alert("Failed to submit customer.");
+      alert("❌ Failed to submit customer.");
     }
   };
 
   return (
-    <div className="max-w-xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">
-        {isEditMode ? "Edit Customer" : "Add Customer"}
-      </h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="flex flex-col">
-          <label>Customer ID</label>
-          {isEditMode && (
+    <div className="form-page">
+      <div className="form-container">
+        <div className="form-header">
+          <UserPlus className="form-header-icon" size={26} />
+          <h2 className="form-title">
+            {isEditMode ? "Edit Customer" : "Add Customer"}
+          </h2>
+        </div>
+
+        <form onSubmit={handleSubmit} className="form">
+          {/* Customer ID */}
+          <div className="form-field">
+            <label className="form-label">Customer ID</label>
             <input
               name="customer_id"
-              className="w-full p-2 border rounded bg-gray-100"
-              value={form.customer_id}
-              readOnly
-            />
-          )}
-          {!isEditMode && (
-            <input
-              name="customer_id"
-              className="w-full p-2 border rounded bg-gray-100"
+              readOnly={isEditMode}
               value={form.customer_id}
               onChange={handleChange}
+              className={`form-input ${isEditMode ? 'form-input-readonly' : ''}`}
+              required
             />
-          )}
-        </div>
+          </div>
 
-        <div className="flex flex-col">
-          <label>Gender</label>
-          <select
-            name="gender"
-            value={form.gender}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
+          {/* Gender */}
+          <div className="form-field">
+            <label className="form-label">Gender</label>
+            <select
+              name="gender"
+              value={form.gender}
+              onChange={handleChange}
+              className="form-select"
+            >
+              <option value="">Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+
+          {/* Checkboxes */}
+          <div className="checkbox-grid">
+            <label className="checkbox-label">
+              <input
+                type="checkbox"
+                name="married"
+                checked={form.married}
+                onChange={handleChange}
+              />
+              Married
+            </label>
+            <label className="checkbox-label">
+              <input
+                type="checkbox"
+                name="dependents"
+                checked={form.dependents}
+                onChange={handleChange}
+              />
+              Has Dependents
+            </label>
+            <label className="checkbox-label">
+              <input
+                type="checkbox"
+                name="partner"
+                checked={form.partner}
+                onChange={handleChange}
+              />
+              Has Partner
+            </label>
+            <label className="checkbox-label">
+              <input
+                type="checkbox"
+                name="senior_citizen"
+                checked={form.senior_citizen}
+                onChange={handleChange}
+              />
+              Senior Citizen
+            </label>
+            <label className="checkbox-label">
+              <input
+                type="checkbox"
+                name="under_30"
+                checked={form.under_30}
+                onChange={handleChange}
+              />
+              Under 30
+            </label>
+          </div>
+
+          {/* Numeric Fields */}
+          <div className="numeric-fields-grid">
+            <div className="form-field">
+              <label className="form-label">Number of Dependents</label>
+              <input
+                name="number_of_dependents"
+                type="number"
+                value={form.number_of_dependents}
+                onChange={handleChange}
+                className="form-input"
+              />
+            </div>
+
+            <div className="form-field">
+              <label className="form-label">Age</label>
+              <input
+                name="age"
+                type="number"
+                value={form.age}
+                onChange={handleChange}
+                className="form-input"
+              />
+            </div>
+
+            <div className="form-field">
+              <label className="form-label">Satisfaction Score</label>
+              <input
+                name="satisfaction_score"
+                type="number"
+                value={form.satisfaction_score}
+                onChange={handleChange}
+                className="form-input"
+              />
+            </div>
+
+            <div className="form-field">
+              <label className="form-label">CLTV</label>
+              <input
+                name="cltv"
+                type="number"
+                value={form.cltv}
+                onChange={handleChange}
+                className="form-input"
+              />
+            </div>
+          </div>
+
+          {/* Status + Zip */}
+          <div className="form-field">
+            <label className="form-label">Customer Status</label>
+            <select
+              name="customer_status"
+              value={form.customer_status}
+              onChange={handleChange}
+              className="form-select"
+            >
+              <option value="">Select Status</option>
+              <option value="Stayed">Stayed</option>
+              <option value="Churned">Churned</option>
+              <option value="Joined">Joined</option>
+            </select>
+          </div>
+
+          <div className="form-field">
+            <label className="form-label">Zip Code</label>
+            <input
+              name="zip_code"
+              value={form.zip_code}
+              onChange={handleChange}
+              className="form-input"
+            />
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="submit-button"
           >
-            <option value="">Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </select>
-        </div>
-
-        <div className="flex gap-10">
-          <label>
-            Married
-            <input
-              type="checkbox"
-              name="married"
-              checked={form.married}
-              onChange={handleChange}
-            />
-          </label>
-          <label>
-            Dependents
-            <input
-              type="checkbox"
-              name="dependents"
-              checked={form.dependents}
-              onChange={handleChange}
-            />
-          </label>
-        </div>
-
-        <div className="flex flex-col">
-          <label>Number of Dependents</label>
-          <input
-            name="number_of_dependents"
-            type="number"
-            value={form.number_of_dependents}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-          />
-        </div>
-
-        <div className="flex gap-6 items-center">
-          <label>
-            Partner
-            <input
-              type="checkbox"
-              name="partner"
-              checked={form.partner}
-              onChange={handleChange}
-            />
-          </label>
-          <label>
-            Senior Citizen
-            <input
-              type="checkbox"
-              name="senior_citizen"
-              checked={form.senior_citizen}
-              onChange={handleChange}
-            />
-          </label>
-          <label>
-            Under 30
-            <input
-              type="checkbox"
-              name="under_30"
-              checked={form.under_30}
-              onChange={handleChange}
-            />
-          </label>
-        </div>
-
-        <div className="flex flex-col">
-          <label>Age</label>
-          <input
-            name="age"
-            type="number"
-            value={form.age}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-          />
-        </div>
-
-        <div className="flex flex-col">
-          <label>Satisfaction Score</label>
-          <input
-            name="satisfaction_score"
-            type="number"
-            value={form.satisfaction_score}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-          />
-        </div>
-
-        <div className="flex flex-col">
-          <label>CLTV</label>
-          <input
-            name="cltv"
-            type="number"
-            value={form.cltv}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-          />
-        </div>
-
-        <div className="flex flex-col">
-          <label>Customer Status</label>
-          <select
-            name="customer_status"
-            value={form.customer_status}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-          >
-            <option value="">Select Status</option>
-            <option value="Stayed">Stayed</option>
-            <option value="Churned">Churned</option>
-            <option value="Joined">Joined</option>
-          </select>
-        </div>
-
-        <div className="flex flex-col">
-          <label>Zip Code</label>
-          <input
-            name="zip_code"
-            value={form.zip_code}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          {isEditMode ? "Update Customer" : "Submit"}
-        </button>
-      </form>
+            {isEditMode ? "Update Customer" : "Submit"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
