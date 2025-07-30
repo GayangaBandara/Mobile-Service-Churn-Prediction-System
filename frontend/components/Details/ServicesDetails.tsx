@@ -1,6 +1,7 @@
 // components/ServicesDetails.tsx
 import { useRouter } from "next/navigation";
 import React from "react";
+import "../../styles/components/details/ServicesDetails.css";
 
 type ServicesDetailsProps = {
   customer_id: string;
@@ -37,54 +38,62 @@ const ServicesDetails: React.FC<ServicesDetailsProps> = ({
   const router = useRouter();
 
   return (
-    <div className=" bg-white shadow-lg rounded-lg m-8 p-6 w-[520px] h-[400px]">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">
-        Services Details
-      </h2>
-      <div className="grid grid-cols-2 gap-4 text-sm text-gray-700">
-        <div>
-          <strong>Internet Service:</strong> {internet_service ? "Yes" : "No"}
+    <div className="services-card">
+      <h2 className="services-title">Services Details</h2>
+      <div className="services-grid">
+        <div className="services-item">
+          <span className="services-label">Internet Service:</span>
+          <span className="services-value">{internet_service ? "Yes" : "No"}</span>
         </div>
-        <div>
-          <strong>Internet Type:</strong> {internet_type}
+        <div className="services-item">
+          <span className="services-label">Internet Type:</span>
+          <span className="services-value">{internet_type}</span>
         </div>
-        <div>
-          <strong>Phone Service:</strong> {phone_service ? "Yes" : "No"}
+        <div className="services-item">
+          <span className="services-label">Phone Service:</span>
+          <span className="services-value">{phone_service ? "Yes" : "No"}</span>
         </div>
-        <div>
-          <strong>Multiple Lines:</strong> {multiple_lines ? "Yes" : "No"}
+        <div className="services-item">
+          <span className="services-label">Multiple Lines:</span>
+          <span className="services-value">{multiple_lines ? "Yes" : "No"}</span>
         </div>
-        <div>
-          <strong>Online Backup:</strong> {online_backup ? "Yes" : "No"}
+        <div className="services-item">
+          <span className="services-label">Online Backup:</span>
+          <span className="services-value">{online_backup ? "Yes" : "No"}</span>
         </div>
-        <div>
-          <strong>Online Security:</strong> {online_security ? "Yes" : "No"}
+        <div className="services-item">
+          <span className="services-label">Online Security:</span>
+          <span className="services-value">{online_security ? "Yes" : "No"}</span>
         </div>
-        <div>
-          <strong>Streaming TV:</strong> {streaming_tv ? "Yes" : "No"}
+        <div className="services-item highlight">
+          <span className="services-label">Streaming TV:</span>
+          <span className="services-value">{streaming_tv ? "Yes" : "No"}</span>
         </div>
-        <div>
-          <strong>Streaming Music:</strong> {streaming_music ? "Yes" : "No"}
+        <div className="services-item highlight">
+          <span className="services-label">Streaming Music:</span>
+          <span className="services-value">{streaming_music ? "Yes" : "No"}</span>
         </div>
-        <div>
-          <strong>Streaming Movies:</strong> {streaming_movies ? "Yes" : "No"}
+        <div className="services-item highlight">
+          <span className="services-label">Streaming Movies:</span>
+          <span className="services-value">{streaming_movies ? "Yes" : "No"}</span>
         </div>
-        <div>
-          <strong>Device Protection Plan:</strong>{" "}
-          {device_protection_plan ? "Yes" : "No"}
+        <div className="services-item">
+          <span className="services-label">Device Protection Plan:</span>
+          <span className="services-value">{device_protection_plan ? "Yes" : "No"}</span>
         </div>
-        <div>
-          <strong>Premium Tech Support:</strong>{" "}
-          {premium_tech_support ? "Yes" : "No"}
+        <div className="services-item">
+          <span className="services-label">Premium Tech Support:</span>
+          <span className="services-value">{premium_tech_support ? "Yes" : "No"}</span>
         </div>
-        <div>
-          <strong>Unlimited Data:</strong> {unlimited_data ? "Yes" : "No"}
+        <div className="services-item">
+          <span className="services-label">Unlimited Data:</span>
+          <span className="services-value">{unlimited_data ? "Yes" : "No"}</span>
         </div>
       </div>
 
-      <div className="flex w-full justify-center mt-10">
+      <div className="services-actions">
         <button
-          className="bg-blue-500 text-white px-6 py-2 rounded"
+          className="edit-button"
           onClick={() =>
             router.push(`/add-services?customer_id=${customer_id}&edit=true`)
           }

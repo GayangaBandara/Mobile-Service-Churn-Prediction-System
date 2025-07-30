@@ -14,7 +14,8 @@ print("Creating FastAPI app...")
 app = FastAPI()
 
 origins = [
-    "http://localhost:3000",  # Your frontend
+    "http://localhost:3001",  # Your frontend
+    "http://localhost:3000",  # Next.js default port
 ]
 
 app.add_middleware(

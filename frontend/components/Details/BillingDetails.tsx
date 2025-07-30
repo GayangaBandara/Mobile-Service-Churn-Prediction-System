@@ -1,6 +1,7 @@
 // components/BillingDetails.tsx
 import { useRouter } from "next/navigation";
 import React from "react";
+import "../../styles/components/details/BillingDetails.css";
 
 type BillingDetailsProps = {
   customer_id: string;
@@ -36,53 +37,61 @@ const BillingDetails: React.FC<BillingDetailsProps> = ({
   const router = useRouter();
 
   return (
-    <div className=" bg-white shadow-lg rounded-lg m-8 p-6 h-[400px]">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Billing Details</h2>
-      <div className="grid grid-cols-2 gap-4 text-sm text-gray-700">
-        <div>
-          <strong>Contract:</strong> {contract}
+    <div className="billing-card">
+      <h2 className="billing-title">Billing Details</h2>
+      <div className="billing-grid">
+        <div className="billing-item">
+          <span className="billing-label">Contract:</span>
+          <span className="billing-value">{contract}</span>
         </div>
-        <div>
-          <strong>Monthly Charge:</strong> ${monthly_charge.toFixed(2)}
+        <div className="billing-item">
+          <span className="billing-label">Monthly Charge:</span>
+          <span className="billing-value">${monthly_charge.toFixed(2)}</span>
         </div>
-        <div>
-          <strong>Total Charges:</strong> ${total_charges.toFixed(2)}
+        <div className="billing-item">
+          <span className="billing-label">Total Charges:</span>
+          <span className="billing-value">${total_charges.toFixed(2)}</span>
         </div>
-        <div>
-          <strong>Payment Method:</strong> {payment_method}
+        <div className="billing-item">
+          <span className="billing-label">Payment Method:</span>
+          <span className="billing-value">{payment_method}</span>
         </div>
-        <div>
-          <strong>Paperless Billing:</strong> {paperless_billing ? "Yes" : "No"}
+        <div className="billing-item">
+          <span className="billing-label">Paperless Billing:</span>
+          <span className="billing-value">{paperless_billing ? "Yes" : "No"}</span>
         </div>
-        <div>
-          <strong>Offer:</strong> {offer}
+        <div className="billing-item">
+          <span className="billing-label">Offer:</span>
+          <span className="billing-value">{offer}</span>
         </div>
-        <div>
-          <strong>Total Revenue:</strong> ${total_revenue.toFixed(2)}
+        <div className="billing-item highlight">
+          <span className="billing-label">Total Revenue:</span>
+          <span className="billing-value">${total_revenue.toFixed(2)}</span>
         </div>
-        <div>
-          <strong>Total Refunds:</strong> ${total_refunds.toFixed(2)}
+        <div className="billing-item">
+          <span className="billing-label">Total Refunds:</span>
+          <span className="billing-value">${total_refunds.toFixed(2)}</span>
         </div>
-        <div>
-          <strong>Extra Data Charges:</strong> $
-          {total_extra_data_charges.toFixed(2)}
+        <div className="billing-item">
+          <span className="billing-label">Extra Data Charges:</span>
+          <span className="billing-value">${total_extra_data_charges.toFixed(2)}</span>
         </div>
-        <div>
-          <strong>Long Distance Charges:</strong> $
-          {total_long_distance_charges.toFixed(2)}
+        <div className="billing-item">
+          <span className="billing-label">Long Distance Charges:</span>
+          <span className="billing-value">${total_long_distance_charges.toFixed(2)}</span>
         </div>
-        <div>
-          <strong>Avg Monthly Long Distance:</strong> $
-          {avg_monthly_long_distance_charges.toFixed(2)}
+        <div className="billing-item">
+          <span className="billing-label">Avg Monthly Long Distance:</span>
+          <span className="billing-value">${avg_monthly_long_distance_charges.toFixed(2)}</span>
         </div>
-        <div>
-          <strong>Avg Monthly GB Download:</strong>{" "}
-          {avg_monthly_gb_download.toFixed(2)} GB
+        <div className="billing-item">
+          <span className="billing-label">Avg Monthly GB Download:</span>
+          <span className="billing-value">{avg_monthly_gb_download.toFixed(2)} GB</span>
         </div>
       </div>
-      <div className="flex w-full justify-center mt-10">
+      <div className="billing-actions">
         <button
-          className="bg-blue-500 text-white px-6 py-2 rounded"
+          className="edit-button"
           onClick={() =>
             router.push(`/add-billing?customer_id=${customer_id}&edit=true`)
           }

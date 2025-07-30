@@ -1,0 +1,147 @@
+.customer-detail-container {
+  padding-top: 2.5rem;
+  padding-left: 5rem;
+  padding-right: 5rem;
+  background-color: #f9fafb;
+  min-height: 100vh;
+}
+
+.customer-detail-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #1f2937;
+  position: relative;
+  padding-bottom: 0.75rem;
+}
+
+.customer-detail-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(to right, #3b82f6, #2563eb);
+}
+
+.predict-button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin-top: 2.5rem;
+  width: 100%;
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.predict-button {
+  padding: 0.5rem 1rem;
+  background-color: #2563eb;
+  color: white;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s;
+}
+
+.predict-button:hover {
+  background-color: #1d4ed8;
+}
+
+.detail-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Empty card styling for services/billing */
+.empty-card {
+  background-color: white;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border-radius: 0.5rem;
+  margin: 2rem;
+  padding: 1.5rem;
+  width: 520px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease-out;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.empty-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+}
+
+.empty-card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.add-button {
+  background-color: #3b82f6;
+  color: white;
+  width: 180px;
+  height: 40px;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s;
+}
+
+.add-button:hover {
+  background-color: #2563eb;
+}
+
+.loading-state {
+  text-align: center;
+  margin-top: 2.5rem;
+  animation: pulse 1.5s infinite;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Responsive tweaks */
+@media (max-width: 1024px) {
+  .customer-detail-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .detail-card {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .empty-card {
+    width: 100%;
+    margin: 1rem 0;
+  }
+}

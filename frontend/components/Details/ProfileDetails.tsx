@@ -1,5 +1,6 @@
 import { useRouter } from "next/navigation";
 import React from "react";
+import "../../styles/components/details/ProfileDetails.css";
 
 type ProfileDetailsProps = {
   customer_id: string;
@@ -33,52 +34,62 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({
   const router = useRouter();
 
   return (
-    <div className=" bg-white shadow-lg rounded-lg p-6 m-8 w-[500px] h-[350px]">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">
-        Customer Details
-      </h2>
-      <div className="grid grid-cols-2 gap-4 text-sm text-gray-700">
-        <div>
-          <strong>Customer ID:</strong> {customer_id}
+    <div className="profile-card">
+      <h2 className="profile-title">Customer Details</h2>
+      <div className="profile-grid">
+        <div className="profile-item">
+          <span className="profile-label">Customer ID:</span>
+          <span className="profile-value">{customer_id}</span>
         </div>
-        <div>
-          <strong>Gender:</strong> {gender}
+        <div className="profile-item">
+          <span className="profile-label">Gender:</span>
+          <span className="profile-value">{gender}</span>
         </div>
-        <div>
-          <strong>Married:</strong> {married ? "Yes" : "No"}
+        <div className="profile-item">
+          <span className="profile-label">Married:</span>
+          <span className="profile-value">{married ? "Yes" : "No"}</span>
         </div>
-        <div>
-          <strong>Dependents:</strong> {dependents ? "Yes" : "No"}
+        <div className="profile-item">
+          <span className="profile-label">Dependents:</span>
+          <span className="profile-value">{dependents ? "Yes" : "No"}</span>
         </div>
-        <div>
-          <strong>Number of Dependents:</strong> {number_of_dependents}
+        <div className="profile-item">
+          <span className="profile-label">Number of Dependents:</span>
+          <span className="profile-value">{number_of_dependents}</span>
         </div>
-        <div>
-          <strong>Partner:</strong> {partner ? "Yes" : "No"}
+        <div className="profile-item">
+          <span className="profile-label">Partner:</span>
+          <span className="profile-value">{partner ? "Yes" : "No"}</span>
         </div>
-        <div>
-          <strong>Senior Citizen:</strong> {senior_citizen ? "Yes" : "No"}
+        <div className="profile-item">
+          <span className="profile-label">Senior Citizen:</span>
+          <span className="profile-value">{senior_citizen ? "Yes" : "No"}</span>
         </div>
-        <div>
-          <strong>Under 30:</strong> {under_30 ? "Yes" : "No"}
+        <div className="profile-item">
+          <span className="profile-label">Under 30:</span>
+          <span className="profile-value">{under_30 ? "Yes" : "No"}</span>
         </div>
-        <div>
-          <strong>Age:</strong> {age ?? "N/A"}
+        <div className="profile-item">
+          <span className="profile-label">Age:</span>
+          <span className="profile-value">{age ?? "N/A"}</span>
         </div>
-        <div>
-          <strong>Satisfaction Score:</strong> {satisfaction_score}/5
+        <div className="profile-item highlight">
+          <span className="profile-label">Satisfaction Score:</span>
+          <span className="profile-value">{satisfaction_score}/5</span>
         </div>
-        <div>
-          <strong>CLTV:</strong> ${cltv.toFixed(2)}
+        <div className="profile-item highlight">
+          <span className="profile-label">CLTV:</span>
+          <span className="profile-value">${cltv.toFixed(2)}</span>
         </div>
-        <div>
-          <strong>Status:</strong> {customer_status}
+        <div className="profile-item">
+          <span className="profile-label">Status:</span>
+          <span className="profile-value">{customer_status}</span>
         </div>
       </div>
 
-      <div className="flex w-full justify-center mt-3">
+      <div className="profile-actions">
         <button
-          className="bg-blue-500 text-white px-6 py-2 rounded"
+          className="edit-button"
           onClick={() =>
             router.push(`/add-customer?customer_id=${customer_id}&edit=true`)
           }

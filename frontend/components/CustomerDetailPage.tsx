@@ -8,11 +8,11 @@ import LocationDetails from "./Details/LocationDetails";
 import ServicesDetails from "./Details/ServicesDetails";
 import BillingDetails from "./Details/BillingDetails";
 import InsightsPanel from "./CustomerInsights";
+import "../styles/components/CustomerDetailPage.css";
 
 export default function CustomerDetailPage() {
   const params = useParams();
   const customer_id = params?.customer_id as string;
-
   const router = useRouter();
 
   const [customer, setCustomer] = useState<any>(null);
@@ -23,7 +23,7 @@ export default function CustomerDetailPage() {
     const fetchCustomer = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:8000/customers/${customer_id}`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000"}/customers/${customer_id}`
         );
         setCustomer(res.data);
       } catch (err) {
@@ -57,14 +57,12 @@ export default function CustomerDetailPage() {
         churn_value: customer.churn_value,
       });
     }
-
-    console.log(customer);
   }, [customer]);
 
   const handlePredict = async () => {
     try {
       const res = await axios.post(
-        `http://localhost:8000/predictions/${customer_id}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000"}/predictions/${customer_id}`
       );
 
       const prediction = res.data;
@@ -79,66 +77,81 @@ export default function CustomerDetailPage() {
     }
   };
 
-  if (!customer) return <div className="text-center mt-10">Loading...</div>;
+  if (!customer) return <div className="loading-state">Loading...</div>;
 
   return (
-    <div className="pt-10 pl-20 pr-20">
-      <h1 className="text-2xl font-bold mb-4">
-        Customer Details: {customer.customer_id}
-      </h1>
-
-      {insights && <InsightsPanel insights={insights} />}
-
-      <div className=" flex items-center justify-center rounded-lg p-6 mt-10 w-full max-w-3xl mx-auto">
-        <button
-          onClick={handlePredict}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-        >
-          Predict Insights
-        </button>
+    <div className="customer-detail-container bg-gray-50 min-h-screen pb-10">
+      {/* Header */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+        <h1 className="customer-detail-title text-2xl font-bold text-gray-900 mb-6">
+          Customer Details: {customer.customer_id}
+        </h1>
       </div>
 
-      <div className="flex items-center justify-center">
-        {/* Profile Section */}
-        {profile && <ProfileDetails {...profile} />}
-
-        {/* Location */}
-        {customer.location && <LocationDetails {...customer.location} />}
+      {/* Insights */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+        {insights && <InsightsPanel insights={insights} />}
       </div>
-      <div className="flex items-center justify-center">
-        {/* Services */}
-        {!customer.services && (
-          <div className="bg-white shadow-2xl rounded-lg m-8 p-6 w-[520px] h-[400px] flex flex-col gap-2 items-center justify-center">
-            <p className="text-[20px] font-semibold">Services</p>
-            <button
-              className="bg-blue-500 text-white w-[180px] h-[40px] rounded hover:bg-blue-600"
-              onClick={() => {
-                router.push(
-                  `/add-services?customer_id=${customer.customer_id}`
-                );
-              }}
-            >
-              Add Services
-            </button>
-          </div>
-        )}
-        {customer.services && <ServicesDetails {...customer.services} />}
 
-        {/* Billing */}
-        {!customer.billing && (
-          <div className="bg-white shadow-2xl rounded-lg m-8 p-6 w-[520px] h-[400px] flex flex-col gap-2 items-center justify-center">
-            <p className="text-[20px] font-semibold">Billing</p>
-            <button
-              className="bg-blue-500 text-white w-[180px] h-[40px] rounded hover:bg-blue-600"
-              onClick={() => {
-                router.push(`/add-billing?customer_id=${customer.customer_id}`);
-              }}
-            >
-              Add Billing
-            </button>
-          </div>
-        )}
-        {customer.billing && <BillingDetails {...customer.billing} />}
+      {/* Predict Button */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+        <div className="predict-button-container bg-white rounded-lg shadow-sm p-6">
+          <button
+            onClick={handlePredict}
+            className="predict-button bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md transition-colors"
+          >
+            Predict Insights
+          </button>
+        </div>
+      </div>
+
+      {/* Profile & Location in same row */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+        <div className="flex flex-col md:flex-row gap-6">
+          {profile && (
+            <div className="flex-1 detail-card">
+              <ProfileDetails {...profile} />
+            </div>
+          )}
+          {customer.location && (
+            <div className="flex-1 detail-card">
+              <LocationDetails customer_id={customer.customer_id} {...customer.location} />
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Services & Billing */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-wrap justify-center gap-6">
+          {!customer.services ? (
+            <div className="empty-card">
+              <p className="empty-card-title text-xl font-semibold mb-4">Services</p>
+              <button
+                className="add-button"
+                onClick={() => router.push(`/add-services?customer_id=${customer.customer_id}`)}
+              >
+                Add Services
+              </button>
+            </div>
+          ) : (
+            <ServicesDetails customer_id={customer.customer_id} {...customer.services} />
+          )}
+
+          {!customer.billing ? (
+            <div className="empty-card">
+              <p className="empty-card-title text-xl font-semibold mb-4">Billing</p>
+              <button
+                className="add-button"
+                onClick={() => router.push(`/add-billing?customer_id=${customer.customer_id}`)}
+              >
+                Add Billing
+              </button>
+            </div>
+          ) : (
+            <BillingDetails customer_id={customer.customer_id} {...customer.billing} />
+          )}
+        </div>
       </div>
     </div>
   );

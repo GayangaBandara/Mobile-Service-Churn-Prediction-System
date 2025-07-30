@@ -1,0 +1,166 @@
+/* LocationDetails.css - Styles for the LocationDetails component */
+
+.location-card {
+  background-color: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border-radius: 0.5rem;
+  margin: 2rem;
+  padding: 1.5rem;
+  min-height: 400px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.location-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.location-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #1f2937;
+  position: relative;
+  padding-bottom: 0.75rem;
+}
+
+.location-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(to right, #10b981, #059669);
+  border-radius: 3px;
+}
+
+.location-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.location-item {
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s ease;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.location-item:hover {
+  background-color: #f9fafb;
+  transform: translateX(5px);
+}
+
+@media (min-width: 640px) {
+  .location-item {
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+}
+
+.location-label {
+  font-weight: 600;
+  color: #4b5563;
+  font-size: 0.875rem;
+}
+
+.location-value {
+  color: #1f2937;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.location-actions {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 2.5rem;
+  animation: fadeIn 0.5s ease-out 0.3s both;
+}
+
+.edit-button {
+  background-color: #10b981;
+  color: white;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.edit-button:hover {
+  background-color: #059669;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.edit-button:active {
+  transform: translateY(0);
+}
+
+/* Enhanced styling for better visual hierarchy */
+.location-card {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.location-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0.25rem;
+  background: linear-gradient(to right, #10b981, #059669);
+}
+
+/* Highlight important values */
+.location-item.highlight .location-value {
+  color: #059669;
+  font-weight: 700;
+  font-size: 1.125rem;
+}
+
+.location-item.highlight {
+  background-color: rgba(209, 250, 229, 0.3);
+  border-left: 3px solid #10b981;
+  padding-left: 0.75rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.location-card {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .location-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .location-card {
+    height: auto;
+    margin: 1rem;
+  }
+}

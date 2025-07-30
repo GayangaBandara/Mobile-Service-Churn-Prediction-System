@@ -1,0 +1,164 @@
+/* CustomerInsights.css - Styles for the CustomerInsights component */
+
+.insights-panel {
+  background-color: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin-top: 2.5rem;
+  width: 100%;
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+  animation: fadeIn 0.5s ease-out;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.insights-panel:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.insights-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.insights-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.insights-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  color: #4b5563;
+}
+
+.insight-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.insight-label {
+  font-weight: 600;
+}
+
+.insight-value {
+  font-size: 2rem;
+  color: #1f2937;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.insight-value:hover {
+  transform: scale(1.1);
+}
+
+.no-insights {
+  color: #6b7280;
+  font-style: italic;
+  padding: 1rem;
+  text-align: center;
+  border: 1px dashed #d1d5db;
+  border-radius: 0.25rem;
+}
+
+/* Enhanced styling for better visual hierarchy */
+.insights-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+.insights-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0.25rem;
+  background: linear-gradient(to right, #3b82f6, #2563eb);
+  animation: shimmer 2s infinite linear;
+  background-size: 200% 100%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+/* Churn score styling with color indicators */
+.insight-value.low-risk {
+  color: #10b981; /* Green for low risk */
+  text-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+}
+
+.insight-value.medium-risk {
+  color: #f59e0b; /* Amber for medium risk */
+  text-shadow: 0 0 10px rgba(245, 158, 11, 0.2);
+}
+
+.insight-value.high-risk {
+  color: #ef4444; /* Red for high risk */
+  text-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.insights-panel {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .insights-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Visual enhancements for the insights panel */
+.insights-panel {
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(209, 213, 219, 0.3);
+}
+
+/* Hover effects for insight items */
+.insight-item {
+  transition: transform 0.2s;
+  padding: 0.75rem;
+  border-radius: 0.25rem;
+}
+
+.insight-item:hover {
+  transform: translateY(-2px);
+  background-color: #f9fafb;
+}

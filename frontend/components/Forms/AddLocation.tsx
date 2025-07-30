@@ -3,10 +3,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { MapPin } from "lucide-react";
+import "../../styles/components/forms/AddLocation.css";
 
 const AddLocationForm: React.FC = () => {
-
-  const router = useRouter()
+  const router = useRouter();
 
   const [form, setForm] = useState({
     zip_code: "",
@@ -18,6 +19,8 @@ const AddLocationForm: React.FC = () => {
     lat_long: "",
     population: "",
   });
+
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -31,6 +34,7 @@ const AddLocationForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const payload = {
@@ -40,11 +44,10 @@ const AddLocationForm: React.FC = () => {
         population: parseInt(form.population, 10),
       };
 
-      const res = await axios.post("http://localhost:8000/locations", payload);
-      alert("Location added successfully!");
-      router.push('/');
-      
-      console.log("Created:", res.data);
+      const res = await axios.post("http://127.0.0.1:8000/locations", payload);
+      alert("✅ Location added successfully!");
+      router.push("/");
+
       setForm({
         zip_code: "",
         city: "",
@@ -57,89 +60,107 @@ const AddLocationForm: React.FC = () => {
       });
     } catch (err) {
       console.error("Error adding location", err);
-      alert("Failed to add location");
+      alert("❌ Failed to add location");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-md mt-10">
-      <h2 className="text-xl font-bold mb-4 text-gray-800">Add Location</h2>
-      <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
-        <input
-          type="text"
-          name="zip_code"
-          placeholder="Zip Code"
-          value={form.zip_code}
-          onChange={handleChange}
-          required
-          className="border p-2 rounded"
-        />
-        <input
-          type="text"
-          name="city"
-          placeholder="City"
-          value={form.city}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-        <input
-          type="text"
-          name="state"
-          placeholder="State"
-          value={form.state}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-        <input
-          type="text"
-          name="country"
-          placeholder="Country"
-          value={form.country}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-        <input
-          type="text"
-          name="latitude"
-          placeholder="Latitude"
-          value={form.latitude}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-        <input
-          type="text"
-          name="longitude"
-          placeholder="Longitude"
-          value={form.longitude}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-        <input
-          type="text"
-          name="lat_long"
-          placeholder="Lat / Long"
-          value={form.lat_long}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-        <input
-          type="number"
-          name="population"
-          placeholder="Population"
-          value={form.population}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-
-        <div className="col-span-2">
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-          >
-            Add Location
-          </button>
+    <div className="location-form-page">
+      <div className="location-form-container">
+        <div className="location-form-header">
+          <MapPin className="location-form-icon" size={28} />
+          <h2 className="location-form-title">Add New Location</h2>
         </div>
-      </form>
+
+        <p className="location-form-description">
+          Fill out the form below to register a new location in the system.
+        </p>
+
+        <form
+          onSubmit={handleSubmit}
+          className="location-form"
+        >
+          <input
+            type="text"
+            name="zip_code"
+            placeholder="Zip Code *"
+            value={form.zip_code}
+            onChange={handleChange}
+            required
+            className="location-form-input required"
+          />
+          <input
+            type="text"
+            name="city"
+            placeholder="City"
+            value={form.city}
+            onChange={handleChange}
+            className="location-form-input"
+          />
+          <input
+            type="text"
+            name="state"
+            placeholder="State"
+            value={form.state}
+            onChange={handleChange}
+            className="location-form-input"
+          />
+          <input
+            type="text"
+            name="country"
+            placeholder="Country"
+            value={form.country}
+            onChange={handleChange}
+            className="location-form-input"
+          />
+          <input
+            type="number"
+            step="any"
+            name="latitude"
+            placeholder="Latitude"
+            value={form.latitude}
+            onChange={handleChange}
+            className="location-form-input"
+          />
+          <input
+            type="number"
+            step="any"
+            name="longitude"
+            placeholder="Longitude"
+            value={form.longitude}
+            onChange={handleChange}
+            className="location-form-input"
+          />
+          <input
+            type="text"
+            name="lat_long"
+            placeholder="Latitude, Longitude"
+            value={form.lat_long}
+            onChange={handleChange}
+            className="location-form-input"
+          />
+          <input
+            type="number"
+            name="population"
+            placeholder="Population"
+            value={form.population}
+            onChange={handleChange}
+            className="location-form-input"
+          />
+
+          <div className="location-form-button-container">
+            <button
+              type="submit"
+              disabled={loading}
+              className={`location-form-button ${loading ? 'loading' : ''}`}
+            >
+              {loading ? "Adding Location..." : "Add Location"}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
