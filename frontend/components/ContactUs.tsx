@@ -75,16 +75,14 @@ const ContactUs: React.FC = () => {
               <Phone className="contact-info-icon" size={24} />
               <div className="contact-info-text">
                 <span className="contact-info-label">Phone</span>
-                +1 (555) 123-4567
+                +94 752578200
               </div>
             </li>
             <li className="contact-info-item">
               <MapPin className="contact-info-icon" size={24} />
               <div className="contact-info-text">
                 <span className="contact-info-label">Address</span>
-                123 Tech Boulevard<br />
-                San Francisco, CA 94107<br />
-                United States
+                SLTC Campus<br /> Trace Expert City, <br /> Colombo 10.
               </div>
             </li>
             <li className="contact-info-item">
@@ -169,22 +167,6 @@ const ContactUs: React.FC = () => {
               </div>
             )}
           </form>
-        </div>
-
-        <div className="contact-map">
-          {/* Placeholder for map - in a real app, you would integrate Google Maps or similar */}
-          <div style={{ 
-            width: '100%', 
-            height: '100%', 
-            backgroundColor: '#e2e8f0', 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center',
-            color: '#4b5563',
-            fontWeight: 500
-          }}>
-            Interactive Map Would Be Displayed Here
-          </div>
         </div>
       </div>
     </div>
