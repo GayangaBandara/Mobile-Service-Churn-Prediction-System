@@ -108,7 +108,7 @@ export default function CustomerList() {
         <div className="chart-container">
           <h2 className="chart-title">Customer Churn Overview</h2>
           <ResponsiveContainer width="100%" height={240}>
-            <PieChart>
+            <PieChart margin={{ bottom: 0 }}>
               <Pie
                 data={churnData}
                 dataKey="value"

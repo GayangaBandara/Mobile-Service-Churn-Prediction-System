@@ -31,20 +31,21 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 /* Analytics Card Styles */
 .analytics-card {
   border-radius: 0.5rem;
-  padding: 1.5rem;
+  padding: 1rem 1.5rem 0 1rem;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   width: 100%;
-  max-width: 20rem;
+  max-width: 15rem;
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
   overflow: hidden;
+  height: 7rem;
 }
 
 .analytics-card:hover {
@@ -64,12 +65,14 @@
 
 .analytics-card-label {
   color: #4b5563;
-  margin-bottom: 0.5rem;
+  top: 0.5rem;
+  margin-bottom: 0rem;
 }
 
 .analytics-card-value {
-  font-size: 1.875rem;
-  font-weight: 700;
+  font-size: 1.7rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
 }
 
 /* Card color variants */
@@ -100,7 +103,7 @@
 /* Chart Section */
 .chart-container {
   background-color: white;
-  padding: 1.5rem;
+  padding: 1.5rem 1.5rem 0 1.5rem;
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   width: 100%;
@@ -125,6 +128,8 @@
 }
 
 .chart-title {
+  font-size: 1.25rem;
+  font-weight: 600;
   text-align: center;
   font-weight: 600;
   font-size: 1.125rem;
@@ -252,6 +257,7 @@
   padding: 0.25rem 1rem;
   border-radius: 0.25rem;
   transition: background-color 0.2s;
+  margin-right: 0.5rem;
 }
 
 .view-button {
