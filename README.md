@@ -1,7 +1,5 @@
 # Mobile-Service-Churn-Prediction-System
 
-# 🧠 Customer Insight Platform
-
 A full-stack AI-driven application for managing customers, locations, services, and billing — with churn prediction using machine learning.
 
 ## 🛠️ Tech Stack
