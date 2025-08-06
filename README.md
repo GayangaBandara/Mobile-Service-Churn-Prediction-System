@@ -11,35 +11,8 @@ A full-stack AI-driven application for managing customers, locations, services, 
 - **ML Models:** Jupyter Notebooks for churn prediction
 - **Database ORM:** SQLAlchemy
 
----
-
 ## 📂 Project Structure
-You said:
-
-
-i wqant to create a readme.md for github using these am using nextjs to frontend and fastapi for backend
-
-ChatGPT said:
-Here’s a polished and professional README.md for your GitHub project, based on your folder structure and stack (Next.js + FastAPI + ML Models):
-
-markdown
-Copy
-Edit
-# 🧠 Customer Insight Platform
-
-A full-stack AI-driven application for managing customers, locations, services, and billing — with churn prediction using machine learning.
-
-## 🛠️ Tech Stack
-
-- **Frontend:** [Next.js](https://nextjs.org/) + Tailwind CSS
-- **Backend:** [FastAPI](https://fastapi.tiangolo.com/) with PostgreSQL
-- **ML Models:** Jupyter Notebooks for churn prediction
-- **Database ORM:** SQLAlchemy
-
----
-
-## 📂 Project Structure
-
+``` bash
 ├── Backend/
 │ ├── api/v1/endpoints/ # API routes
 │ ├── crud/ # DB operations
@@ -61,7 +34,7 @@ A full-stack AI-driven application for managing customers, locations, services, 
 │ ├── Datasets/
 │ ├── churn_score.ipynb
 │ └── churn_value.ipynb
-
+```
 
 ---
 
@@ -104,14 +77,14 @@ Inside the `Models/` directory:
 ### 📡 API Endpoints
 
 **Base URL:** `http://localhost:8000/api/v1`
-
+``` bash
 Endpoint	Description
 /customer/	CRUD for customer data
 /location/	Manage locations
 /billing/	Billing operations
 /service/	Service details
 /prediction/	ML churn predictions
-
+```
 
 📄 License
 MIT © [Saza-dev]
