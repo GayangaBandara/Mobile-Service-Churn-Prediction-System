@@ -95,5 +95,21 @@ Endpoint	Description
 /prediction/	ML churn predictions
 ```
 
+### Team Roles
+```
+Gayanga Bandara      22UG1-0285  Team Lead/Backend Developer
+Sasanka Rajapaksha   22UG1-0825  Data Scientist
+Vishwa Chandrasekara 22UG1-0394  FullStack Developer
+Dhanuka Rathnayaka   22UG1-0828  Frontend Developer
+Hasith Dilhara       22UG1-0585  Frontend Developer
+Isuru Priyankara     22UG1-0762  Backend Developer
+Hasarel Bangamuwage  22UG1-0936  Backend Developer
+Yashintha Tharuka    22UG1-0342  QA Engineer            
+Ravindu Mihiranga    22UG1-0024  QA Enigneer
+Vimansa Athapaththu  22UG1-0067  UI/UX Engineer
+            
+```
+
+
 📄 License
 MIT © [Saza-dev]
