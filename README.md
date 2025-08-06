@@ -42,15 +42,16 @@ A full-stack AI-driven application for managing customers, locations, services, 
 
 ### 🔧 Backend (FastAPI)
 
-# ⚙️ Backend Environment Setup
+#### ⚙️ Backend Environment Setup
 
 To run the backend, create a `.env` file in the `Backend/` directory with your PostgreSQL database connection string.
 
-## 📄 .env File Example
+#### .env
 
 ```env
 DATABASE_URL=postgresql://your_username:your_password@localhost:5432/your_database_name
 ```
+#### In your terminal
 
 ```bash
 cd Backend
